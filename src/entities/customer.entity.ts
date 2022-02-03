@@ -1,4 +1,5 @@
-import { Entity, LoadStrategy, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Product } from './product.entity';
 
 @Entity({ tableName: 'customers' })
 export class Customer {
@@ -11,8 +12,8 @@ export class Customer {
   @Property()
   lastName!: string;
 
-  @Property({ columnType: 'uuid', nullable: true, index: true })
-  productId?: string;
+  @ManyToOne(() => Product, { nullable: true, index: true, eager: true })
+  product?: Product;
 
   @Property({ columnType: 'timestamp', length: 6, defaultRaw: `now()` })
   createdAt!: Date;

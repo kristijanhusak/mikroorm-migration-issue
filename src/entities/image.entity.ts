@@ -1,8 +1,8 @@
-import { Embeddable, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-@Embeddable()
+@Entity({ tableName: 'images' })
 export class Image {
-  @Property()
+  @PrimaryKey({ columnType: 'uuid', defaultRaw: `uuid_generate_v4()` })
   id: string;
 
   @Property()

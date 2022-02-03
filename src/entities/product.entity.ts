@@ -1,4 +1,10 @@
-import { Embedded, Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  LoadStrategy,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { Image } from './image.entity';
 
 @Entity({ tableName: 'products' })
@@ -12,7 +18,12 @@ export class Product {
   @Property({ columnType: 'text' })
   description!: string;
 
-  @Embedded()
+  @ManyToOne(() => Image, {
+    index: true,
+    strategy: LoadStrategy.JOINED,
+    eager: true,
+    nullable: true,
+  })
   image: Image;
 
   @Property({ columnType: 'timestamp', length: 6, defaultRaw: `now()` })
