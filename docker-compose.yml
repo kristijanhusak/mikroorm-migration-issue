@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+  api:
+    dns: 8.8.8.8
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/src/
+      - /src/node_modules
+    ports:
+      - ${DOCKER_APP_PORT:-3000}:3000
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14-alpine
+    command: "postgres -c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off' -c 'full_page_writes=off' -c 'max_connections=100' -c 'client_min_messages=warning'"
+    ports:
+      - ${DOCKER_DATABASE_PORT:-5432}:5432
+    environment:
+      LC_ALL: C.UTF-8
+      POSTGRES_PASSWORD: test_db_password
+      POSTGRES_DB: test_db
+
+networks:
+  default:
+    name: default_network
