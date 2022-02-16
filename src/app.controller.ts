@@ -1,12 +1,24 @@
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { CustomerRepository } from './customer.repository';
+import { Customer } from './entities/customer.entity';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    @InjectRepository(Customer)
+    private readonly repo: EntityRepository<Customer>,
+    private readonly customRepo: CustomerRepository,
+  ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
+    return this.repo.findAll();
+  }
+
+  @Get('custom')
+  getCustom() {
+    return this.customRepo.findAll();
   }
 }

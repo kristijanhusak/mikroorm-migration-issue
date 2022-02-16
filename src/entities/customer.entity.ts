@@ -1,7 +1,8 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { CustomerRepository } from 'src/customer.repository';
 import { Product } from './product.entity';
 
-@Entity({ tableName: 'customers' })
+@Entity({ tableName: 'customers', customRepository: () => CustomerRepository })
 export class Customer {
   @PrimaryKey({ columnType: 'uuid', defaultRaw: `uuid_generate_v4()` })
   id!: string;
