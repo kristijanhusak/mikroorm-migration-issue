@@ -4,4 +4,5 @@ export default {
   entitiesTs: ['./src/**/*.entity.ts'],
   clientUrl: process.env.DATABASE_URL,
   type: 'postgresql',
+  debug: ['query', 'query-params'],
 };

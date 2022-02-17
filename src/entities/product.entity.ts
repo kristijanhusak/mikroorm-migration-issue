@@ -1,10 +1,13 @@
 import {
   Entity,
+  Index,
   LoadStrategy,
   ManyToOne,
+  OneToOne,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
+import { Customer } from './customer.entity';
 import { Image } from './image.entity';
 
 @Entity({ tableName: 'products' })
@@ -25,6 +28,10 @@ export class Product {
     nullable: true,
   })
   image: Image;
+
+  @Index()
+  @OneToOne(() => Customer)
+  customer!: Customer;
 
   @Property({ columnType: 'timestamp', length: 6, defaultRaw: `now()` })
   createdAt!: Date;
