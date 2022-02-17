@@ -12,4 +12,8 @@ export class AppService {
   getCustomers() {
     return this.repo.findAll();
   }
+
+  getCustomersFromScript(): any {
+    return this.repo.findAll({ disableIdentityMap: true });
+  }
 }
